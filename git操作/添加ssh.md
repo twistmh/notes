@@ -4,7 +4,7 @@
 
 PowerShell
 
-```
+```bash
 # 1. 检查是否已有密钥 (如果看到 id_rsa.pub 或 id_ed25519.pub 说明已有，跳到第三步)
 ls ~/.ssh
 
@@ -22,7 +22,7 @@ ssh-keygen -t ed25519 -C "你的GitHub邮箱"
 
    PowerShell
 
-   ```
+   ```bash
    cat ~/.ssh/id_ed25519.pub
    ```
 
@@ -42,7 +42,7 @@ ssh-keygen -t ed25519 -C "你的GitHub邮箱"
 
 PowerShell
 
-```
+```bash
 # 1. 先删掉旧的 HTTPS 地址
 git remote remove origin
 
@@ -65,7 +65,7 @@ git remote -v
 
    PowerShell
 
-   ```
+   ```bash
    ssh -T git@github.com
    ```
 
@@ -75,6 +75,26 @@ git remote -v
 
    PowerShell
 
-   ```
+   ```bash
    git push -u origin master
    ```
+
+
+
+
+
+### 附加步骤：ssh的代理设置
+
+git的代理对ssh并不会起效果，所以需要单独设置ssh的代理
+
+在C:\Users\14261\.ssh目录下，打开config文件，添加如下内容即可
+
+```
+Host github.com
+    HostName ssh.github.com
+	Port 443
+    User git
+    # 注意：路径里的反斜杠要用两个 \\ 或者直接用正斜杠 /
+    ProxyCommand "C:/app/Git/mingw64/bin/connect.exe" -S 127.0.0.1:7890 %h %p
+```
+
